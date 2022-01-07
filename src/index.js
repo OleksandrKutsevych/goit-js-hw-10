@@ -19,25 +19,34 @@ function onInput() {
     clearList();
     return;
   }
-  fetchCountries(country).then(countries => {
-    console.log(countries);
-    clearList();
-    if (countries === undefined) {
-      return;
-    }
-    if (countries.length === 1) {
-      //розмітка з однією країною
-      refs.countryList.style.display = 'none';
-      renderCountryCard(countries);
-    } else if (countries.length <= 10) {
-      // markup from 2 to 9 countries
-      refs.countryList.style.display = 'flex';
-      renderCountriesListMrkup(countries);
-    } else {
-      //alert then too march countries
-      manyMatchesFound(countries);
-    }
-  });
+  fetchCountries(country)
+    .then(countries => {
+      console.log(countries);
+      clearList();
+      // if (countries === undefined) {
+      //   return;
+      // } else
+      if (countries.length === 1) {
+        //розмітка з однією країною
+        console.log(1);
+        refs.countryList.style.display = 'none';
+        renderCountryCard(countries);
+      } else if (countries.length > 10) {
+        //alert then too march countries
+        console.log(100);
+        manyMatchesFound();
+      } else {
+        // markup from 2 to 10 countries
+        console.log(10);
+        refs.countryList.style.display = 'flex';
+        renderCountriesListMrkup(countries);
+      }
+    })
+    .catch(wrongNameError);
+}
+
+function wrongNameError() {
+  Notiflix.Notify.failure('Oops, there is no country with that name');
 }
 
 function clearList() {
@@ -75,5 +84,7 @@ function renderCountriesListMrkup(countries) {
 }
 
 function manyMatchesFound() {
-  return Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+  Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
 }
+
+//=================class=================
