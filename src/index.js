@@ -14,30 +14,22 @@ refs.countryInput.addEventListener('input', debounce(onInput, DEBOUNCE_DELAY));
 
 function onInput() {
   let country = refs.countryInput.value.trim();
-  console.log('country', country);
   if (country === '') {
     clearList();
     return;
   }
   fetchCountries(country)
     .then(countries => {
-      console.log(countries);
       clearList();
-      // if (countries === undefined) {
-      //   return;
-      // } else
       if (countries.length === 1) {
         //розмітка з однією країною
-        console.log(1);
         refs.countryList.style.display = 'none';
         renderCountryCard(countries);
       } else if (countries.length > 10) {
-        //alert then too march countries
-        console.log(100);
+        //забагато країн
         manyMatchesFound();
       } else {
-        // markup from 2 to 10 countries
-        console.log(10);
+        //розмітка списку
         refs.countryList.style.display = 'flex';
         renderCountriesListMrkup(countries);
       }
